@@ -6,8 +6,6 @@ local Player = Players.LocalPlayer
 
 local Balls = workspace:WaitForChild("Balls", 9e9)
 
-local ParryRemote = nil
-
 local function IsAlive(Enemie)
     return (Enemie and Enemie:FindFirstChild("Humanoid") and Enemie.Humanoid.Health > 0)
 end
@@ -41,32 +39,10 @@ local function GetPing()
     return PerformanceStats.Ping:GetValue()
 end
 
-local function Parry()
-    local cf = workspace.CurrentCamera.CFrame
-    local x, y, z, R00, R01, R02, R10, R11, R12, R20, R21, R22 = cf:GetComponents()
-
-    local args = {
-        [1] = 0,
-        [2] = CFrame.new(x, y, z, R00, R01, R02, R10, R11, R12, R20, R21, R22),
-        [3] = {},
-        [4] = {
-            [1] = workspace.CurrentCamera.ViewportSize.X,
-            [2] = workspace.CurrentCamera.ViewportSize.Y
-        },
-        [5] = false
-    }
-    ParryRemote = ParryRemote or game:GetService("SocialService"):WaitForChild("\n")
-
-    if ParryRemote then
-        ParryRemote:FireServer(unpack(args))
-    end
-end
-
 return ({
     GetRealBall = GetRealBall,
     IsTarget = IsTarget,
     IsAlive = IsAlive,
     GetNear = GetNear,
-    GetPing = GetPing,
-    Parry = Parry
+    GetPing = GetPing
 })
